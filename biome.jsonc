@@ -13,6 +13,7 @@
         "noDynamicNamespaceImportAccess": "off"
       },
       "style": {
+        "useBlockStatements": "error",
         "noMagicNumbers": "off",
         "useFilenamingConvention": "off",
         "useConsistentTypeDefinitions": "off"
