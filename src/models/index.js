@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import Sequelize from "sequelize";
+import pkg from "sequelize";
+const { Sequelize, DataTypes } = pkg;
 import sequelize from "../config/database.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,7 +18,7 @@ const modelFiles = fs
 // Imports and initializes each model with sequelize
 for (const file of modelFiles) {
   const { default: modelDefiner } = await import(path.join(__dirname, file));
-  const model = modelDefiner(sequelize, Sequelize.DataTypes);
+  const model = modelDefiner(sequelize, DataTypes);
   db[model.name] = model;
 }
 
