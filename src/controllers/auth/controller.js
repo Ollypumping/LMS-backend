@@ -178,6 +178,6 @@ export const updatePassword = async (req, res) => {
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     console.log("error updating password:", error);
-    res.status(500).json({ message: "Error updating password" });
+    res.status(500).json({ message: "Error updating password " });
   }
 };
