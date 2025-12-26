@@ -3,11 +3,11 @@ import db from "../src/models/index.js";
 const testBookModel = async () => {
   try {
     await db.sequelize.authenticate();
-    console.log("✅ DB connected");
+    console.log("DB connected");
 
     // Create a test book
     const book = await db.Book.create({
-      title: "Test Book",
+      title: "Test 2",
       author: "Olayemi",
       isbn: "1234567891",
       category: "Fiction",
