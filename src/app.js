@@ -30,6 +30,14 @@ const createApp = () => {
   app.use("/api/reports", reportRoutes);
   app.use("/api/fines", fineRoutes);
 
+  // Handle unhandled routes (404)
+  app.all("*", (req, res, next) => {
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+  });
+
+  // Global Error Handler
+  app.use(globalErrorHandler);
+
   return app;
 };
 
