@@ -1,3 +1,4 @@
+import "mysql2";
 import createApp from "./app.js";
 import { connectDB } from "./config/dbinit.js";
 import { env } from "./config/env.js";
