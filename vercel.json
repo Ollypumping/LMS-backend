@@ -1,9 +1,3 @@
 {
-  "version": 2,
-  "functions": {
-    "src/index.js": {
-      "includeFiles": "node_modules/mysql2/**"
-    }
-  },
-  "rewrites": [{ "source": "/(.*)", "destination": "/src/index.js" }]
+  "version": 2
 }
