@@ -21,8 +21,6 @@ export const signup = async (req, res, next) => {
     programType,
   } = req.body || {};
 
-  console.log("req.body ==> ", req.body);
-
   if (
     !email ||
     !password ||

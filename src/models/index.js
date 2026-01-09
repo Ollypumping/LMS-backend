@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url"; // 1. Added pathToFileURL
+import { fileURLToPath, pathToFileURL } from "node:url";
 import Sequelize from "sequelize";
 import sequelize from "../config/database.js";
 
@@ -14,13 +14,10 @@ const modelFiles = fs
   .filter((file) => file !== "index.js" && file.endsWith(".js"));
 
 for (const file of modelFiles) {
-  // 2. Build the absolute path
   const filePath = path.join(__dirname, file);
 
-  // 3. THE FIX: Convert the path to a file:// URL string
   const fileUrl = pathToFileURL(filePath).href;
 
-  // 4. Use the URL instead of the raw path string
   const { default: modelDefiner } = await import(fileUrl);
 
   const model = modelDefiner(sequelize, Sequelize.DataTypes);
