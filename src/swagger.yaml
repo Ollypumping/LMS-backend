@@ -49,7 +49,7 @@ components:
           type: string
           description: User ID.
 
-    SignupRequest:
+    StudentSignupRequest:
       type: object
       required:
         - email
@@ -105,6 +105,41 @@ components:
             - Undergraduate
             - Postgraduate
           example: Undergraduate
+    
+    StaffSignupRequest:
+      type: object
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+        - staffId
+      properties:
+        email:
+          type: string
+          format: email
+          example: staff@example.com
+        password:
+          type: string
+          format: password
+          example: Password123!
+        firstName:
+          type: string
+          example: Jane
+        lastName:
+          type: string
+          example: Smith
+        phoneNumber:
+          type: string
+          nullable: true
+          example: "+2348012345679"
+        staffId:
+          type: string
+          example: "LCU/STF/001"
+        designation:
+          type: string
+          example: "Lecturer"
+          nullable: true
 
     LoginRequest:
       type: object
@@ -238,21 +273,44 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
 
 paths:
-  /api/auth/signup:
+  /api/auth/student-signup:
     post:
       tags:
         - Authentication
-      summary: Register a new user
+      summary: Register a new student
       description: Creates a new student account and returns a JWT token.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SignupRequest'
+              $ref: '#/components/schemas/StudentSignupRequest'
       responses:
         '201':
-          description: User created.
+          description: Student created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/auth/staff-signup:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new staff member
+      description: Creates a new staff account and returns a JWT token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StaffSignupRequest'
+      responses:
+        '201':
+          description: Staff created.
           content:
             application/json:
               schema:

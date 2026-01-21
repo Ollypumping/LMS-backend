@@ -7,7 +7,7 @@ import AppError from "../../utils/AppError.js";
 /**
  * Handles student registration.
  */
-export const signup = async (req, res, next) => {
+export const studentSignup = async (req, res, next) => {
   const {
     email,
     password,
@@ -92,6 +92,77 @@ export const signup = async (req, res, next) => {
         entryYear: entryYearNumber,
         programDuration: programDurationNumber,
         programType,
+      },
+      { transaction: t }
+    );
+
+    await t.commit();
+
+    const token = jwt.sign(
+      { id: newUser.id, role: newUser.role, email: newUser.email },
+      env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.status(201).json({
+      token,
+      role: newUser.role,
+      name: `${newUser.firstName} ${newUser.lastName}`,
+      id: newUser.id,
+    });
+  } catch (error) {
+    await t.rollback();
+    next(error);
+  }
+};
+
+/**
+ * Handles staff registration.
+ */
+export const staffSignup = async (req, res, next) => {
+  const { email, password, firstName, lastName, phoneNumber, staffId, designation } =
+    req.body || {};
+
+  if (!email || !password || !firstName || !lastName || !staffId) {
+    return next(new AppError("All required fields must be provided.", 400));
+  }
+
+  const t = await db.sequelize.transaction();
+
+  try {
+    const existingUser = await db.User.findOne({ where: { email } });
+    if (existingUser) {
+      await t.rollback();
+      return next(new AppError("User with this email already exists", 400));
+    }
+
+    const existingStaff = await db.Staff.findOne({
+      where: { staffId },
+    });
+    if (existingStaff) {
+      await t.rollback();
+      return next(new AppError("Staff ID already registered", 400));
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await db.User.create(
+      {
+        email,
+        password: hashedPassword,
+        firstName,
+        lastName,
+        phoneNumber,
+        role: "staff",
+      },
+      { transaction: t }
+    );
+
+    await db.Staff.create(
+      {
+        userId: newUser.id,
+        staffId,
+        designation,
       },
       { transaction: t }
     );
