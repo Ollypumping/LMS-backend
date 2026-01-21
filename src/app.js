@@ -8,7 +8,8 @@ import { protect } from "./middleware/auth.js";
 import { globalErrorHandler } from "./middleware/errorHandler.js";
 import adminRoutes from "./routes/admin/route.js";
 import authRoutes from "./routes/auth/route.js";
-import bookRoutes from "./routes/books/route.js";
+import bookRoutes from "./routes/book/route.js";
+import booksRoutes from "./routes/books/route.js";
 import fineRoutes from "./routes/fines/route.js";
 import reportRoutes from "./routes/reports/route.js";
 import AppError from "./utils/AppError.js";
@@ -47,7 +48,8 @@ const createApp = () => {
 
   // RBAC Protected Routes
   app.use("/api/admin", adminRoutes);
-  app.use("/api/books", bookRoutes);
+  app.use("/api/book", bookRoutes);
+  app.use("/api/books", booksRoutes);
   app.use("/api/reports", reportRoutes);
   app.use("/api/fines", fineRoutes);
 

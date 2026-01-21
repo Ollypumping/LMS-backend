@@ -1,11 +1,9 @@
 // models/index.js
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import pkg from "sequelize";
 const { Sequelize, DataTypes } = pkg;
 import { fileURLToPath, pathToFileURL } from "node:url";
-import Sequelize from "sequelize";
 import sequelize from "../config/database.js";
 
 const __filename = fileURLToPath(import.meta.url);
