@@ -1,8 +1,8 @@
 import { Router } from "express";
 import {
   login,
-  studentSignup,
   staffSignup,
+  studentSignup,
   updatePassword,
 } from "../../controllers/auth/controller.js";
 import { protect } from "../../middleware/auth.js";

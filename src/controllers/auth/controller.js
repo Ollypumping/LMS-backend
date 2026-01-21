@@ -120,8 +120,15 @@ export const studentSignup = async (req, res, next) => {
  * Handles staff registration.
  */
 export const staffSignup = async (req, res, next) => {
-  const { email, password, firstName, lastName, phoneNumber, staffId, designation } =
-    req.body || {};
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+    phoneNumber,
+    staffId,
+    designation,
+  } = req.body || {};
 
   if (!email || !password || !firstName || !lastName || !staffId) {
     return next(new AppError("All required fields must be provided.", 400));
