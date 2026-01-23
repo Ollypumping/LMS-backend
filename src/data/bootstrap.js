@@ -5,6 +5,7 @@ import db from "../models/index.js";
 
 export const initializeAdmin = async () => {
   try {
+    console.log("Initializing admin...");
     const adminExists = await db.User.findOne({ where: { role: ROLES.ADMIN } });
 
     if (adminExists) {
