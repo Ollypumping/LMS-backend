@@ -41,8 +41,11 @@ const createApp = () => {
       credentials: true,
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
+      optionsSuccessStatus: 200,
     })
   );
+
+  app.options("/*splat", cors());
 
   app.use(express.json());
 
