@@ -16,9 +16,17 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING(100),
         allowNull: true,
       },
-      level: {
-        type: DataTypes.STRING(20),
-        allowNull: true,
+      entryYear: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      programDuration: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      programType: {
+        type: DataTypes.ENUM("Undergraduate", "Postgraduate"),
+        allowNull: false,
       },
     },
     {
