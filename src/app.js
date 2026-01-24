@@ -5,6 +5,7 @@ import cors from "cors";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
+import { corsOptions } from "./config/cors.js";
 import { protect } from "./middleware/auth.js";
 import { globalErrorHandler } from "./middleware/errorHandler.js";
 import adminRoutes from "./routes/admin/route.js";
@@ -31,21 +32,10 @@ try {
 
 const createApp = () => {
   const app = express();
+  app.set("trust proxy", true);
 
-  app.use(
-    cors({
-      origin: [
-        "https://final-lms-frontend.onrender.com",
-        "http://localhost:3000",
-      ],
-      credentials: true,
-      methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
-      optionsSuccessStatus: 200,
-    })
-  );
-
-  app.options("/*splat", cors());
+  app.use(cors(corsOptions));
+  app.options("/*splat", cors(corsOptions));
 
   app.use(express.json());
 
