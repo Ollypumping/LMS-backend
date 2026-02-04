@@ -48,6 +48,14 @@ components:
         id:
           type: string
           description: User ID.
+        matricNumber:
+          type: string
+          description: Student's matriculation number (returned for students).
+          example: "LCU/2024/001"
+        staffId:
+          type: string
+          description: Staff's ID (returned for staff/admin).
+          example: "LCU/STF/001"
 
     StudentSignupRequest:
       type: object

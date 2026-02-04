@@ -114,6 +114,7 @@ export const studentSignup = async (req, res, next) => {
       role: newUser.role,
       name: `${newUser.firstName} ${newUser.lastName}`,
       id: newUser.id,
+      matricNumber,
     });
   } catch (error) {
     await t.rollback();
@@ -213,6 +214,7 @@ export const staffSignup = async (req, res, next) => {
       role: newUser.role,
       name: `${newUser.firstName} ${newUser.lastName}`,
       id: newUser.id,
+      staffId,
     });
   } catch (error) {
     await t.rollback();
@@ -248,11 +250,25 @@ export const login = async (req, res, next) => {
       { expiresIn: "7d" }
     );
 
+    const extraInfo = {};
+    if (user.role === ROLES.STUDENT) {
+      const student = await db.Student.findOne({ where: { userId: user.id } });
+      if (student) {
+        extraInfo.matricNumber = student.matricNumber;
+      }
+    } else if (user.role === ROLES.STAFF || user.role === ROLES.ADMIN) {
+      const staff = await db.Staff.findOne({ where: { userId: user.id } });
+      if (staff) {
+        extraInfo.staffId = staff.staffId;
+      }
+    }
+
     res.status(200).json({
       token,
       role: user.role,
       name: `${user.firstName} ${user.lastName}`,
       id: user.id,
+      ...extraInfo,
     });
   } catch (error) {
     next(error);
